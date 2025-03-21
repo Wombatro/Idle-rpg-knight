@@ -1,0 +1,97 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Knight of the Machine - Side Scrolling RPG</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+            margin: 0;
+            padding: 0;
+        }
+        #game {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            background-image: url('CdH_TILES.png');
+            background-repeat: repeat-x;
+            background-position: 0 0;
+            background-size: cover;
+            animation: scroll-background 10s linear infinite;
+        }
+        @keyframes scroll-background {
+            from { background-position-x: 0; }
+            to { background-position-x: -1000px; }
+        }
+        #game-stats {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: #fff;
+            background-color: rgba(0,0,0,0.5);
+            padding: 10px;
+            border-radius: 8px;
+        }
+        #knight {
+            position: absolute;
+            bottom: 50px;
+            left: 100px;
+            width: 64px;
+            height: 64px;
+            image-rendering: pixelated;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #0f3460;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #533483;
+        }
+    </style>
+</head>
+<body>
+<div id="game">
+    <div id="game-stats">
+        <p id="status">Click "Start Quest" to begin!</p>
+        <p id="level">Knight Level: 1</p>
+        <p id="xp">Experience: 0</p>
+        <button onclick="startGame()">Start Quest</button>
+    </div>
+    <img id="knight" src="spellun-sprite.png" alt="Knight Sprite">
+</div>
+
+<script>
+    let knightLevel = 1;
+    let xp = 0;
+    let questInterval;
+
+    function startGame() {
+        document.querySelector('button').disabled = true;
+        document.getElementById('status').innerText = "Knight is questing...";
+
+        questInterval = setInterval(() => {
+            xp += Math.floor(Math.random() * 10 + 1);
+
+            if (xp >= knightLevel * 100) {
+                knightLevel++;
+                xp = 0;
+                document.getElementById('status').innerText = `Knight leveled up! Now level ${knightLevel}!`;
+            } else {
+                document.getElementById('status').innerText = "Knight continues questing...";
+            }
+
+            document.getElementById('level').innerText = `Knight Level: ${knightLevel}`;
+            document.getElementById('xp').innerText = `Experience: ${xp}`;
+        }, 2000);
+    }
+</script>
+
+</body>
+</html>
